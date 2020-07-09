@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mypods
+  labels:
+    env: prod
+spec:
+  selector:
+    matchLabels:
+      env: prod
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        env: prod
+    spec:
+      containers:
+      - image: vimal13/apache-webserver-php
+        name: myos1
+ 
+        volumeMounts:
+          - name: myvolforefs
+            mountPath: /var/www/html
+      volumes:
+        - name: myvolforefs
+          persistentVolumeClaim:
+            claimName: lwpvc1
